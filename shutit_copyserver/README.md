@@ -1,1 +1,0 @@
-shutit_copyserver: description of module directory in here

@@ -68,15 +68,23 @@ class shutit_copyserver(ShutItModule):
 		shutit.send('git config --global user.email "shutit@shutit.tk"')
 		shutit.send('git config --global user.name "Ian Miell"')
 		shutit.send('pip install blueprint')
+		shutit.send('''echo ':service:*' > ~/.blueprintignore''')
 		shutit.send('blueprint create shutit_copyserver')
 		shutit.send('cd $(' + shutit.cfg['host']['shutit_path'] + '/shutit skeleton --output_dir --base_image ' + shutit.cfg[self.module_id]['base_image'] + ')/context')
 		shutit.send('blueprint show -S shutit_copyserver')
 		shutit.send('cd ..')
-		shutit.multisend(shutit.cfg['host']['shutit_path'] + '/shutit build -s repository tag yes -s repository tag_name copyserver',{'shutit appears not':'n'})
+		pwd = shutit.send_and_get_output('pwd')
+		filename = shutit.send_and_get_output('ls *py')
+		shutit.insert_text('''
+		shutit.send_host_dir('/tmp/tmp','context')
+		shutit.send('cd /tmp/tmp/shutit_copyserver')
+		shutit.send('sh ./bootstrap.sh')
+''',pwd + '/' + filename,'return True',before=True)
+		shutit.multisend(shutit.cfg['host']['shutit_path'] + '/shutit build -s repository tag yes -s repository name copyserver',{'shutit appears not':'n'})
 		return True
 
 	def get_config(self, shutit):
-		shutit.get_config(self.module_id, 'base_image', hint='Please input an appropriate docker base image, eg ubuntu:14.04')
+		shutit.get_config(self.module_id, 'base_image', hint='Please input an appropriate docker base image, eg:\nubuntu\nubuntu:12.04\ncentos')
 		return True
 
 
