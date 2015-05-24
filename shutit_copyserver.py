@@ -76,9 +76,9 @@ class shutit_copyserver(ShutItModule):
 		pwd = shutit.send_and_get_output('pwd')
 		filename = shutit.send_and_get_output('ls *py')
 		shutit.insert_text('''
-		shutit.send_host_dir('/tmp/tmp','context')
-		shutit.send('cd /tmp/tmp/shutit_copyserver')
-		shutit.send('sh ./bootstrap.sh')
+		shutit.send_host_dir('/tmp','context')
+		shutit.send('cd /tmp/shutit_copyserver')
+		shutit.send('sh ./shutit_copyserver.sh')
 ''',pwd + '/' + filename,'return True',before=True)
 		shutit.multisend(shutit.cfg['host']['shutit_path'] + '/shutit build -s repository tag yes -s repository name copyserver',{'shutit appears not':'n'})
 		return True
