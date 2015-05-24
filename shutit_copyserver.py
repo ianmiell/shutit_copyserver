@@ -65,8 +65,10 @@ class shutit_copyserver(ShutItModule):
 			shutit.fail('You must be root to run this')
 		shutit.install('python-pip')
 		shutit.install('git')
-		shutit.send('git config --global user.email "shutit@shutit.tk"')
-		shutit.send('git config --global user.name "Ian Miell"')
+		if not shutit.send_and_match_output('git config -l','user.email'):
+			shutit.send('git config --global user.email "shutit@shutit.tk"')
+		if not shutit.send_and_match_output('git config -l','user.name'):
+			shutit.send('git config --global user.name "ShutIt"')
 		shutit.send('pip install blueprint')
 		shutit.send('''echo ':service:*' > ~/.blueprintignore''')
 		shutit.send('blueprint create shutit_copyserver')
