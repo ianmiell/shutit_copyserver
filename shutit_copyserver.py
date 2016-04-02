@@ -73,9 +73,8 @@ class shutit_copyserver(ShutItModule):
 		shutit.send('''echo ':service:*' > ~/.blueprintignore''')
 		shutit.send('blueprint create shutit_copyserver')
 		shutit.send('mkdir -p /tmp/shutit_blueprint && cd /tmp/shutit_blueprint')
-		shutit.send('cd $(' + shutit.cfg['host']['shutit_path'] + '/shutit skeleton --output_dir --base_image ' + shutit.cfg[self.module_id]['base_image'] + ' --template_branch bash --module_directory /tmp/shutit_copyserver --module_name copied_server --domain shutit.copied_server --delivery bash)')
-		shutit.send('blueprint show -S shutit_copyserver')
-		shutit.send('cd ..')
+		shutit.send('cd $(' + shutit.cfg['host']['shutit_path'] + '/shutit skeleton --output_dir --base_image ' + shutit.cfg[self.module_id]['base_image'] + ' --template_branch bash --module_directory /tmp/shutit_copyserver --module_name copied_server --domain shutit.copied_server --delivery docker)')
+		shutit.send('blueprint show -S shutit_copyserver',check_exit=False)
 		pwd = shutit.send_and_get_output('pwd')
 		filename = shutit.send_and_get_output('ls *py')
 		shutit.insert_text('''
