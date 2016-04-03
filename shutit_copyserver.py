@@ -83,8 +83,7 @@ class shutit_copyserver(ShutItModule):
 		shutit.send('cd /tmp/shutit_copyserver')
 		shutit.send('sh ./*.sh')
 ''',pwd + '/' + filename,'return True',before=True)
-		shutit.pause_point(shutit.cfg['host']['shutit_path'] + '/shutit build -s repository tag yes -s repository name copyserver')
-		shutit.multisend(shutit.cfg['host']['shutit_path'] + '/shutit build -s repository tag yes -s repository name copyserver -l DEBUG',{'shutit appears not':'n'},timeout=999999)
+		shutit.multisend(shutit.cfg['host']['shutit_path'] + '/shutit build -s repository tag yes -s repository name copyserver',{'shutit appears not':'n'},timeout=999999)
 		return True
 
 	def get_config(self, shutit):
