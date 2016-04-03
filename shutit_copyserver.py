@@ -69,21 +69,22 @@ class shutit_copyserver(ShutItModule):
 			shutit.send('git config --global user.email "shutit@shutit.tk"')
 		if not shutit.send_and_match_output('git config -l','user.name'):
 			shutit.send('git config --global user.name "ShutIt"')
+		shutit.send('rm -rf /tmp/shutit_copyserver')
 		shutit.send('pip install blueprint')
 		shutit.send('''echo ':service:*' > ~/.blueprintignore''')
+		shutit.send(shutit.cfg['host']['shutit_path'] + '/shutit skeleton --output_dir --base_image ' + shutit.cfg[self.module_id]['base_image'] + ' --template_branch docker --module_directory /tmp/shutit_copyserver --module_name copied_server --domain shutit.copied_server --delivery docker')
+		shutit.send('cd /tmp/shutit_copyserver')
 		shutit.send('blueprint create shutit_copyserver')
-		shutit.send('mkdir -p /tmp/shutit_blueprint && cd /tmp/shutit_blueprint')
-		shutit.send('cd $(' + shutit.cfg['host']['shutit_path'] + '/shutit skeleton --output_dir --base_image ' + shutit.cfg[self.module_id]['base_image'] + ' --template_branch bash --module_directory /tmp/shutit_copyserver --module_name copied_server --domain shutit.copied_server --delivery docker)')
-		shutit.send('blueprint show -S shutit_copyserver',check_exit=False)
+		shutit.send('blueprint create -S shutit_copyserver')
 		pwd = shutit.send_and_get_output('pwd')
 		filename = shutit.send_and_get_output('ls *py')
 		shutit.insert_text('''
-		shutit.send('mkdir -p /tmp/shutit_copyserver')
-		shutit.send_host_dir('/tmp/shutit_copyserver','/tmp/shutit_blueprint')
+		shutit.send_host_dir('/tmp/shutit_copyserver','/tmp/shutit_copyserver/shutit_copyserver')
 		shutit.send('cd /tmp/shutit_copyserver')
 		shutit.send('sh ./*.sh')
 ''',pwd + '/' + filename,'return True',before=True)
-		shutit.multisend(shutit.cfg['host']['shutit_path'] + '/shutit build -s repository tag yes -s repository name copyserver',{'shutit appears not':'n'},timeout=999999)
+		shutit.pause_point(shutit.cfg['host']['shutit_path'] + '/shutit build -s repository tag yes -s repository name copyserver')
+		shutit.multisend(shutit.cfg['host']['shutit_path'] + '/shutit build -s repository tag yes -s repository name copyserver -l DEBUG',{'shutit appears not':'n'},timeout=999999)
 		return True
 
 	def get_config(self, shutit):
