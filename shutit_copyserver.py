@@ -81,7 +81,7 @@ class shutit_copyserver(ShutItModule):
 		shutit.send('cd /tmp/shutit_copyserver')
 		shutit.send('blueprint create shutit_copyserver')
 		shutit.send('blueprint show -S shutit_copyserver')
-		# Edit out the service startups from the 
+		# Edit out the service startups from the blueprint
 		shutit.send('''sed -i 's/^...n "$SERVICE_.*$//g' shutit_copyserver/bootstrap.sh''')
 		pwd = shutit.send_and_get_output('pwd')
 		filename = shutit.send_and_get_output('ls *py')
@@ -94,7 +94,7 @@ class shutit_copyserver(ShutItModule):
 		return True
 
 	def get_config(self, shutit):
-		shutit.get_config(self.module_id, 'base_image', hint='Please input an appropriate docker base image, eg:\nubuntu\nubuntu:12.04\ncentos')
+		shutit.get_config(self.module_id, 'base_image', hint='Please input an appropriate docker base image, eg:\nubuntu\nubuntu:12.04\ncentos\n\nYou can use any base image you want, but be aware that non-apt or yum-based images are less likely to succeed.')
 		return True
 
 
