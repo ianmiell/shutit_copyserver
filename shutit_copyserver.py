@@ -103,6 +103,7 @@ def module():
 		'shutit.shutit_copyserver.shutit_copyserver.shutit_copyserver', 1161086295.00,
 		description='Copy a server\'s config divined using blueprint',
 		maintainer='ian.miell@gmail.com',
+		delivery_methods=['bash'],
 		depends=['shutit.tk.setup']
 	)
 
