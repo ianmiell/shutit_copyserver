@@ -77,7 +77,7 @@ class shutit_copyserver(ShutItModule):
 		shutit.send('''echo ':package:apt/virtualbox' >> /etc/blueprintignore''')
 		shutit.send('''echo ':package:apt/virtualbox-dkms' >> /etc/blueprintignore''')
 		shutit.send('''echo ':package:apt/virtualbox-qt' >> /etc/blueprintignore''')
-		shutit.send(shutit.host['shutit_path'] + '/shutit skeleton --output_dir --base_image ' + shutit.cfg[self.module_id]['base_image'] + ' --template_branch docker --module_directory /tmp/shutit_copyserver --module_name copied_server --domain shutit.copied_server --delivery docker')
+		shutit.send('shutit skeleton --output_dir --base_image ' + shutit.cfg[self.module_id]['base_image'] + ' --pattern docker --name /tmp/shutit_copyserver --domain shutit.copied_server --delivery docker')
 		shutit.send('cd /tmp/shutit_copyserver')
 		shutit.send('blueprint create shutit_copyserver')
 		shutit.send('blueprint show -S shutit_copyserver')
