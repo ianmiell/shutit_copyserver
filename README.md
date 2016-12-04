@@ -14,7 +14,7 @@ You may need to make sure the docker server is running too, eg with ‘systemctl
 #Step 2
 Check out the copyserver script:
 ```
-git clone https://github.com/TheBoroer/shutit_copyserver.git
+git clone https://github.com/ianmiell/shutit_copyserver.git
 ```
 
 #Step 3
