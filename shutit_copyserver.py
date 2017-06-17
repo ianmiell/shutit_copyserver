@@ -86,11 +86,12 @@ class shutit_copyserver(ShutItModule):
 		pwd = shutit.send_and_get_output('pwd')
 		filename = shutit.send_and_get_output('ls *py')
 		shutit.insert_text('''
+		shutit.install('python-pip')
 		shutit.send_host_dir('/tmp/shutit_copyserver','/tmp/shutit_copyserver/shutit_copyserver')
-		shutit.send('cd /tmp/shutit_copyserver')
+		shutit.send('cd /tmp/shutit_copyserver/shutit_copyserver')
 		shutit.send('sh ./*.sh')
 ''',pwd + '/' + filename,'return True',before=True)
-		shutit.multisend(shutit.host['shutit_path'] + '/shutit build -s repository tag yes -s repository name copyserver -l DEBUG',{'shutit appears not':'n'},timeout=999999)
+		shutit.multisend(shutit.host['shutit_path'] + '/shutit build -d docker -s repository tag yes -s repository name copyserver -l DEBUG',{'shutit appears not':'n'},timeout=999999)
 		return True
 
 	def get_config(self, shutit):
